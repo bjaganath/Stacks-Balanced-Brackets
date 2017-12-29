@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StackBalancedBrackets
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter No. of strings");
+            int t = Convert.ToInt32(Console.ReadLine());
+
+            bool isResult = false;
+            List<string> BalancedResult = new List<string>();
+
+            Console.WriteLine("Enter "+ Convert.ToString(t) + " strings: ");
+            for (int a0 = 0; a0 < t; a0++)
+            {
+                string expression = Console.ReadLine();
+                isResult = isBracketBalanced(expression);
+
+                if (isResult)
+                    BalancedResult.Add("YES");
+                else
+                    BalancedResult.Add("NO");
+            }
+
+            for (int i = 0; i < BalancedResult.Count; i++)
+                Console.WriteLine(BalancedResult[i]);
+
+            Console.ReadKey();
+           
+
+        }
+
+        static bool isBracketBalanced(string brackets)
+        {
+           
+            bool isBalanced = false;
+            char[] bracket = new char[brackets.Length];
+            bracket = brackets.ToCharArray();
+
+            Stack<string> StackBalancedBracket = new Stack<string>();
+
+
+            for (int i = 0; i < bracket.Length; i++ )
+            {
+                switch(bracket[i].ToString())
+                {
+                    case "{":                        
+                        StackBalancedBracket.Push(bracket[i].ToString());
+                        isBalanced = false;
+                        break;
+                    case "(":                        
+                        StackBalancedBracket.Push(bracket[i].ToString());
+                        isBalanced = false;
+                        break;
+                    case "[":
+                        StackBalancedBracket.Push(bracket[i].ToString());
+                        isBalanced = false;
+                        break;
+                    case "]" :
+                        if ((StackBalancedBracket.Count > 0) && (StackBalancedBracket.Peek() == "["))
+                        {
+                            isBalanced = true;
+                            StackBalancedBracket.Pop();
+                        }
+                        else
+                            return false;                       
+                        
+                        break;
+                    case ")":
+                        if ((StackBalancedBracket.Count > 0) && (StackBalancedBracket.Peek() == "("))
+                        {
+                            isBalanced = true;
+                            StackBalancedBracket.Pop();
+                        }
+                        else
+                            return false;
+
+                        break;
+
+                    case "}":
+                        if ((StackBalancedBracket.Count > 0) && (StackBalancedBracket.Peek() == "{"))
+                        {
+                            isBalanced = true;
+                            StackBalancedBracket.Pop();
+                        }
+                        else
+                            return false;
+
+                        break;
+                   
+                    default:
+                        break;
+                }
+            }
+
+           return isBalanced;
+        }
+    }
+}
